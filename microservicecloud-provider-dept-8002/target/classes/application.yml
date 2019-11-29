@@ -1,0 +1,60 @@
+server:
+  port: 8002
+
+
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml   #mybatis配置文件路径
+  type-aliases-package: com.pc.study.entity            #所有entity别名类所在包
+  mapper-locations:
+    - classpath:mybatis/mapper/**/*.xml                #mapper映射文件
+
+spring:
+  application:
+    name: microservicecloud-dept
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource     #当前数据源操作类型
+    driver-class-name: org.gjt.mm.mysql.Driver       #mysql驱动包
+    url: jdbc:mysql://localhost:3306/cloudDB02?useUnicode=true&characterEncoding=utf-8&useSSL=false        #数据库名称
+    username: root
+    password: 123456
+    dbcp2:
+      min-idle: 5                                    #数据库俩姐吃最小维持连接数
+      max-total: 5                                   #最大连接数
+      initial-size: 5                                #初始化连接数
+      max-wait-millis: 200                           #等待连接获取的最大超时时间
+
+      # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个，
+      #注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串
+      test-on-borrow: false
+      # SQL查询,用来验证从连接池取出的连接,在将连接返回给调用者之前.
+      #如果指定,则查询必须是一个SQL SELECT并且必须返回至少一行记录
+      validation-query: select 1
+      # 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除.
+      #注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串
+      test-while-idle: true
+      # 指明是否在归还到池中前进行检验，注意: 设置为true后如果要生效,
+      #validationQuery参数必须设置为非空字符串
+      test-on-return: false
+
+
+
+eureka:
+  client:        # 客户端注册进eureka服务列表内
+    service-url:
+      # defaultZone: http://localhost:7001/eureka   单机版
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka
+  instance:
+    instance-id: microservicecloud-dept8002    # 自定义服务名称信息
+    prefer-ip-address: true                    # 访问路径显示ip地址
+
+
+
+
+#超链接显示内容
+info:
+  app.name: pc-microservicecloud
+  author.name: pc
+  build.artifactId: microservicecloud-provider-dept-8002
+  build.versioni: 1.0-SNAPSHOT
+
+
