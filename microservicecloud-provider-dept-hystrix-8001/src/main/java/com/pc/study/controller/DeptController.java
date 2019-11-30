@@ -1,5 +1,6 @@
 package com.pc.study.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.pc.study.entity.Dept;
 import com.pc.study.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,40 +20,18 @@ public class DeptController {
     @Autowired
     private DeptService deptService;
 
-    @PostMapping(value = "/dept/add")
-    public boolean add(@RequestBody Dept dept){
-        return deptService.add(dept);
-    }
-
-
     @GetMapping(value = "/dept/get/{id}")
+    @HystrixCommand(fallbackMethod = "processHystrix_Get")
     public Dept get(@PathVariable("id") Long id){
-        return deptService.get(id);
-    }
-
-
-    @GetMapping(value = "/dept/list")
-    public List<Dept> list(){
-        return deptService.list();
-    }
-
-
-
-    @Autowired
-    private DiscoveryClient client;
-
-    @GetMapping(value = "/dept/discovery")
-    public Object discovery(){
-        List<String> services = client.getServices();
-        System.out.println("====="+services);
-
-        List<ServiceInstance> instances = client.getInstances("MICROSERVICECLOUD-DEPT");
-        for(ServiceInstance instance:instances){
-            System.out.println("host="+instance.getHost()+",port="+instance.getPort()+",uri="+instance.getUri());
+        Dept dept = deptService.get(id);
+        if(null==dept){
+            throw new RuntimeException("没有对应编号的信息");
         }
-        return client;
+        return dept;
     }
 
-
+    public Dept processHystrix_Get(@PathVariable("id") Long id){
+        return new Dept().setDeptno(id).setDname("没有对应信息").setDb_source("没有对应数据库");
+    }
 
 }

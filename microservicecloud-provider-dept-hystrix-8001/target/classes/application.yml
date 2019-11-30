@@ -54,5 +54,5 @@ eureka:
 info:
   app.name: pc-microservicecloud
   author.name: pc
-  build.artifactId: $project.artifactId$
-  build.versioni: $project.version$
+  build.artifactId: microservicecloud-provider-dept-hystrix-8001
+  build.versioni: 1.0-SNAPSHOT

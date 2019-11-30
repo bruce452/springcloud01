@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
-@FeignClient("MICROSERVICECLOUD-DEPT")
+//@FeignClient("MICROSERVICECLOUD-DEPT")
+
+@FeignClient(value = "MICROSERVICECLOUD-DEPT",fallbackFactory = DeptClientServiceFallbackFactory.class)
 public interface DeptClientService {
 
     @PostMapping(value = "/dept/add")

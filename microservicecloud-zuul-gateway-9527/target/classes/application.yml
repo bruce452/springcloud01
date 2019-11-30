@@ -1,0 +1,36 @@
+
+server:
+  port: 9527
+
+
+spring:
+  application:
+    name: microservicecloud-zull-gateway
+
+
+
+eureka:
+  client:        # 客户端注册进eureka服务列表内
+    service-url:
+      # defaultZone: http://localhost:7001/eureka   单机版
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka
+  instance:
+    instance-id: gateway-9527.com    # 自定义服务名称信息
+    prefer-ip-address: true                    # 访问路径显示ip地址
+
+
+
+
+#超链接显示内容
+info:
+  app.name: pc-microservicecloud
+  author.name: pc
+  build.artifactId: microservicecloud-zuul-gateway-9527
+  build.versioni: 1.0-SNAPSHOT
+
+
+#  路由访问映射规则
+zuul:
+  routes:
+    mydept.serviceId: microservicecloud-dept
+    mydept.path: /mydept/**
