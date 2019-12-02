@@ -3,12 +3,6 @@ server:
   port: 9527
 
 
-spring:
-  application:
-    name: microservicecloud-zull-gateway
-
-
-
 eureka:
   client:        # 客户端注册进eureka服务列表内
     service-url:
@@ -34,3 +28,12 @@ zuul:
   routes:
     mydept.serviceId: microservicecloud-dept
     mydept.path: /mydept/**
+
+  #ignored-services: microservicecloud-dept
+  ignored-services: "*"                # 原服务名忽略
+  prefix: /pc                          # 设置公共前缀
+
+
+
+
+
